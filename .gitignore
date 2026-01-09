@@ -1,0 +1,6 @@
+portfolio/
+portfolio-next/
+img_of_Achivement/
+node_modules/
+.DS_Store
+.env
