@@ -13,10 +13,31 @@ export default function Contact() {
     });
     const [focused, setFocused] = useState("");
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // API logic to be added
-        console.log(formData);
+
+        try {
+            // Use the environment variable for the backend URL
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
+            const response = await fetch(`${apiUrl}/send-email`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                alert("Message sent successfully!");
+                setFormData({ name: "", email: "", subject: "", message: "" });
+            } else {
+                alert("Failed to send message.");
+            }
+        } catch (error) {
+            console.error("Error sending message:", error);
+            alert("An error occurred. Please try again.");
+        }
     };
 
     return (
